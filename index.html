@@ -1,67 +1,44 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Traçado pontilhado — Jardim 2</title>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Caligrafia pontilhada — Jardim 2</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#faf7ff;color:#39334d;font-family:Arial,system-ui,sans-serif}
 header{text-align:center;padding:18px 12px}h1{margin:0;font-size:clamp(1.5rem,4vw,2.4rem)}header p{margin:7px 0;color:#766e88}
-main{max-width:1200px;margin:auto;padding:12px}.panel{background:white;border:2px solid #ece5f6;border-radius:24px;padding:clamp(14px,2.5vw,28px);box-shadow:0 8px 24px #3020500c}
-.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:850px;margin:24px auto}
-.choice{border:0;border-radius:22px;padding:30px 14px;min-height:190px;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;color:#39334d;cursor:pointer}.choice span{display:block;font-size:1rem;font-weight:500;margin-top:10px}.a{background:#eee8fc}.b{background:#e3f5ec}
-.top{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:12px}.top h2{margin:0}.buttons{display:flex;gap:8px;flex-wrap:wrap}
-button.action{border:0;border-radius:12px;padding:11px 15px;font-weight:700;background:#eee8fc;color:#39334d;cursor:pointer}button.next{background:#e75b91;color:white}
+main{max-width:1200px;margin:auto;padding:12px}.panel{background:#fff;border:2px solid #ece5f6;border-radius:24px;padding:clamp(14px,2.5vw,28px);box-shadow:0 8px 24px #3020500c}
+.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;max-width:850px;margin:24px auto}.choice{border:0;border-radius:22px;padding:30px 14px;min-height:180px;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:800;color:#39334d;cursor:pointer}.choice span{display:block;font-size:1rem;font-weight:500;margin-top:10px}.a{background:#eee8fc}.b{background:#e3f5ec}
+.top{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:12px}.top h2{margin:0}.buttons{display:flex;gap:8px;flex-wrap:wrap}button.action{border:0;border-radius:12px;padding:11px 15px;font-weight:700;background:#eee8fc;color:#39334d;cursor:pointer}button.next{background:#e75b91;color:white}
 #tabs{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 14px}#tabs button{border:1px solid #ddd4eb;border-radius:9px;background:white;padding:7px 10px;font-weight:700;color:#514967}#tabs button.active{background:#f9dce8;border-color:#e75b91}
-.paper{border:2px solid #e9e4ef;border-radius:16px;padding:8px;background:white}canvas{display:block;width:100%;height:auto;touch-action:none}
+.paper{position:relative;border:2px solid #e9e4ef;border-radius:16px;padding:8px;background:white;overflow:hidden}
+#guide,#ink{display:block;width:100%;height:auto}#ink{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);touch-action:none}
 .note{text-align:center;color:#746d80;margin:10px 0 0}.hide{display:none!important}
 @media(max-width:600px){.choices{grid-template-columns:1fr}.choice{min-height:140px}.buttons{width:100%}.action{flex:1}}
-</style></head>
-<body>
-<header><h1>🌟 Vamos traçar!</h1><p>Cubra os pontinhos com o dedo, mouse ou caneta</p></header>
-<main>
-<section id="home" class="panel"><h2 style="text-align:center">Escolha sua atividade</h2>
-<div class="choices">
-<button class="choice a" onclick="start('syllables')">🔤 Sílabas<span>Treine as famílias silábicas</span></button>
-<button class="choice b" onclick="start('numbers')">🔢 Números<span>Treine os números de 0 a 20</span></button>
-</div></section>
-<section id="work" class="panel hide">
-<div class="top"><h2 id="heading">Traçado</h2><div class="buttons">
-<button class="action" onclick="say()">🔊 Ouvir</button><button class="action" onclick="redraw()">↻ Recomeçar</button><button class="action next" onclick="advance()">Próximo ➜</button><button class="action" onclick="home()">Início</button>
-</div></div>
-<div id="tabs"></div>
-<div class="paper"><canvas id="c" width="1400" height="600"></canvas></div>
-<p class="note">A letra ou o número é formado inteiramente por pontinhos. Passe por cima deles para cobrir o modelo.</p>
-</section></main>
+</style></head><body><header><h1>🌟 Vamos traçar!</h1><p>Modelo de caligrafia com pontinhos para cobrir</p></header><main>
+<section id="home" class="panel"><h2 style="text-align:center">Escolha sua atividade</h2><div class="choices">
+<button class="choice a" onclick="start('syllables')">🔤 Sílabas<span>Famílias silábicas</span></button>
+<button class="choice b" onclick="start('numbers')">🔢 Números<span>Do 0 ao 20</span></button></div></section>
+<section id="work" class="panel hide"><div class="top"><h2 id="heading"></h2><div class="buttons">
+<button class="action" onclick="say()">🔊 Ouvir</button><button class="action" onclick="resetInk()">↻ Apagar traçado</button><button class="action next" onclick="advance()">Próximo ➜</button><button class="action" onclick="home()">Início</button></div></div>
+<div id="tabs"></div><div class="paper"><svg id="guide" viewBox="0 0 1200 520" role="img" aria-label="Letra formada por pontos"></svg><canvas id="ink" width="1200" height="520"></canvas></div>
+<p class="note">Cubra os pontinhos seguindo o caminho de cada letra. O modelo é feito com pontos ao longo dos traços da caligrafia.</p></section></main>
 <script>
-const fam=[["A","E","I","O","U"],["BA","BE","BI","BO","BU"],["CA","CE","CI","CO","CU"],["DA","DE","DI","DO","DU"],["FA","FE","FI","FO","FU"],["GA","GE","GI","GO","GU"],["JA","JE","JI","JO","JU"],["LA","LE","LI","LO","LU"],["MA","ME","MI","MO","MU"],["NA","NE","NI","NO","NU"],["PA","PE","PI","PO","PU"],["QUE","QUI"],["RA","RE","RI","RO","RU"],["SA","SE","SI","SO","SU"],["TA","TE","TI","TO","TU"],["VA","VE","VI","VO","VU"],["XA","XE","XI","XO","XU"],["ZA","ZE","ZI","ZO","ZU"],["CHA","CHE","CHI","CHO","CHU"],["LHA","LHE","LHI","LHO","LHU"],["NHA","NHE","NHI","NHO","NHU"]];
-const syll=fam.flat(), nums=Array.from({length:21},(_,i)=>String(i));
-let items=[],idx=0,kind='syllables',drawing=false,last=null;
-const c=document.getElementById('c'),g=c.getContext('2d');
-function start(k){kind=k;items=k==='syllables'?syll:nums;idx=0;document.getElementById('home').classList.add('hide');document.getElementById('work').classList.remove('hide');document.getElementById('heading').textContent=k==='syllables'?'🔤 Traçado de sílabas':'🔢 Traçado de números';paint()}
+const families=[["A","E","I","O","U"],["BA","BE","BI","BO","BU"],["CA","CE","CI","CO","CU"],["DA","DE","DI","DO","DU"],["FA","FE","FI","FO","FU"],["GA","GE","GI","GO","GU"],["JA","JE","JI","JO","JU"],["LA","LE","LI","LO","LU"],["MA","ME","MI","MO","MU"],["NA","NE","NI","NO","NU"],["PA","PE","PI","PO","PU"],["QUE","QUI"],["RA","RE","RI","RO","RU"],["SA","SE","SI","SO","SU"],["TA","TE","TI","TO","TU"],["VA","VE","VI","VO","VU"],["XA","XE","XI","XO","XU"],["ZA","ZE","ZI","ZO","ZU"],["CHA","CHE","CHI","CHO","CHU"],["LHA","LHE","LHI","LHO","LHU"],["NHA","NHE","NHI","NHO","NHU"]];
+const paths={"A": "M10 125 L50 12 L90 125 M25 82 L75 82", "B": "M18 125 L18 12 L55 12 C95 12 95 62 55 62 L18 62 M55 62 C100 62 100 125 55 125 L18 125", "C": "M88 28 C70 5 25 5 12 42 C-2 82 18 128 55 128 C72 128 84 120 91 108", "D": "M18 125 L18 12 L48 12 C105 12 105 125 48 125 Z", "E": "M88 12 L18 12 L18 125 L90 125 M18 67 L75 67", "F": "M18 125 L18 12 L90 12 M18 65 L76 65", "G": "M88 30 C72 4 28 4 12 42 C-5 85 18 128 55 128 C78 128 92 111 92 85 L58 85", "H": "M15 12 L15 125 M85 12 L85 125 M15 68 L85 68", "I": "M50 12 L50 125 M20 12 L80 12 M20 125 L80 125", "J": "M82 12 L82 92 C82 142 15 142 12 100", "K": "M18 12 L18 125 M88 12 L20 72 L92 125", "L": "M18 12 L18 125 L90 125", "M": "M10 125 L10 12 L50 75 L90 12 L90 125", "N": "M15 125 L15 12 L85 125 L85 12", "O": "M50 10 C100 10 100 127 50 127 C0 127 0 10 50 10 Z", "P": "M18 125 L18 12 L55 12 C100 12 100 68 55 68 L18 68", "Q": "M50 10 C100 10 100 127 50 127 C0 127 0 10 50 10 Z M62 98 L95 135", "R": "M18 125 L18 12 L55 12 C100 12 100 68 55 68 L18 68 M52 68 L92 125", "S": "M88 25 C65 0 15 5 15 38 C15 62 85 65 85 95 C85 132 35 140 10 112", "T": "M10 12 L90 12 M50 12 L50 125", "U": "M15 12 L15 88 C15 140 85 140 85 88 L85 12", "V": "M10 12 L50 125 L90 12", "W": "M8 12 L28 125 L50 65 L72 125 L92 12", "X": "M15 12 L85 125 M85 12 L15 125", "Y": "M12 12 L50 65 L88 12 M50 65 L50 125", "Z": "M12 12 L88 12 L12 125 L88 125", "0": "M50 10 C100 10 100 127 50 127 C0 127 0 10 50 10 Z", "1": "M25 35 L50 10 L50 125 M25 125 L78 125", "2": "M15 35 C20 0 88 0 88 40 C88 62 45 88 15 125 L90 125", "3": "M15 25 C45 0 90 12 85 45 C82 65 60 68 48 68 C80 65 95 88 85 110 C75 140 30 138 10 115", "4": "M72 125 L72 10 L10 88 L92 88", "5": "M85 12 L22 12 L18 62 C65 42 92 65 88 98 C85 140 32 140 10 112", "6": "M78 18 C25 -2 8 55 15 95 C22 145 88 140 88 98 C88 58 32 50 16 88", "7": "M10 12 L90 12 L38 125", "8": "M50 68 C5 68 5 10 50 10 C95 10 95 68 50 68 C0 68 0 130 50 130 C100 130 100 68 50 68", "9": "M84 52 C80 2 15 0 12 43 C8 88 75 100 86 52 M85 52 L78 125"};
+const syllables=families.flat(), numbers=Array.from({length:21},(_,i)=>String(i));
+let items=[],index=0,kind='syllables',drawing=false,last=null;
+const svg=document.getElementById('guide'),canvas=document.getElementById('ink'),ctx=canvas.getContext('2d');
+function start(k){kind=k;items=k==='syllables'?syllables:numbers;index=0;document.getElementById('home').classList.add('hide');document.getElementById('work').classList.remove('hide');document.getElementById('heading').textContent=k==='syllables'?'🔤 Traçado de sílabas':'🔢 Traçado de números';render()}
 function home(){document.getElementById('work').classList.add('hide');document.getElementById('home').classList.remove('hide')}
-function paint(){document.getElementById('tabs').innerHTML=items.map((v,i)=>`<button class="${i===idx?'active':''}" onclick="choose(${i})">${v}</button>`).join('');makeDots();drawing=false}
-function choose(i){idx=i;paint()}function advance(){idx=(idx+1)%items.length;paint()}
-function makeDots(){
- g.clearRect(0,0,c.width,c.height);g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);
- const mask=document.createElement('canvas');mask.width=c.width;mask.height=c.height;const m=mask.getContext('2d');
- const s=items[idx].length>=3?285:items[idx].length===2?350:420;
- m.fillStyle='#000';m.textAlign='center';m.textBaseline='middle';m.font=`bold ${s}px Arial, sans-serif`;
- m.fillText(items[idx],c.width/2,c.height/2,c.width-100);
- const a=m.getImageData(0,0,c.width,c.height).data;
- // Amostra a área preenchida do caractere e desenha pontos separados e regulares.
- // Assim, toda a letra (não apenas seu contorno) fica composta por pontinhos.
- const step=15, radius=3.1;
- g.fillStyle='#8f79b9';
- for(let y=0;y<c.height;y+=step)for(let x=0;x<c.width;x+=step){
-  if(a[(y*c.width+x)*4+3]>90){g.beginPath();g.arc(x,y,radius,0,Math.PI*2);g.fill()}
- }
- // Linha de base suave, como em folha de caligrafia.
- g.strokeStyle='#eeeaf2';g.lineWidth=2;g.setLineDash([8,12]);g.beginPath();g.moveTo(65,505);g.lineTo(1335,505);g.stroke();g.setLineDash([]);
+function render(){document.getElementById('tabs').innerHTML=items.map((v,i)=>`<button class="${i===index?'active':''}" onclick="choose(${i})">${v}</button>`).join('');drawGuide();resetInk()}
+function choose(i){index=i;render()}function advance(){index=(index+1)%items.length;render()}
+function drawGuide(){
+ const word=items[index], n=word.length, gap=24, cellW=(1200-gap*(n+1))/n, y=175, h=260, w=cellW*.76;
+ let out='<line x1="35" y1="445" x2="1165" y2="445" stroke="#eee9f3" stroke-width="2" stroke-dasharray="8 10"/>';
+ [...word].forEach((ch,i)=>{const x=gap+i*(cellW+gap)+(cellW-w)/2;out+=`<g transform="translate(${x} ${y}) scale(${w/100} ${h/140})"><path d="${paths[ch]||paths['A']}" fill="none" stroke="#9b86c2" stroke-width="${Math.max(1.4,3.2/(w/100))}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0 ${14/(w/100)}"/></g>`});
+ svg.innerHTML=out;
 }
-function redraw(){makeDots()}
-function point(e){const r=c.getBoundingClientRect();return{x:(e.clientX-r.left)*c.width/r.width,y:(e.clientY-r.top)*c.height/r.height}}
-c.addEventListener('pointerdown',e=>{drawing=true;last=point(e);c.setPointerCapture(e.pointerId)});
-c.addEventListener('pointermove',e=>{if(!drawing)return;const p=point(e);g.strokeStyle='#e75b91';g.lineWidth=7;g.lineCap='round';g.beginPath();g.moveTo(last.x,last.y);g.lineTo(p.x,p.y);g.stroke();last=p});
-function stop(){drawing=false;last=null}c.addEventListener('pointerup',stop);c.addEventListener('pointercancel',stop);
-function say(){if(!('speechSynthesis'in window))return;let u=new SpeechSynthesisUtterance(items[idx]);u.lang='pt-BR';speechSynthesis.cancel();speechSynthesis.speak(u)}
+function resetInk(){ctx.clearRect(0,0,canvas.width,canvas.height);drawing=false;last=null}
+function point(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}}
+canvas.addEventListener('pointerdown',e=>{drawing=true;last=point(e);canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener('pointermove',e=>{if(!drawing)return;const p=point(e);ctx.strokeStyle='#e75b91';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p});
+function stop(){drawing=false;last=null}canvas.addEventListener('pointerup',stop);canvas.addEventListener('pointercancel',stop);
+function say(){if(!('speechSynthesis'in window))return;const u=new SpeechSynthesisUtterance(items[index]);u.lang='pt-BR';speechSynthesis.cancel();speechSynthesis.speak(u)}
 </script></body></html>
