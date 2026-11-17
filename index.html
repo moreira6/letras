@@ -74,6 +74,11 @@ footer{text-align:center;color:#667085;font-size:.85rem;padding:12px}
   <h2 style="color:#6d4acb;margin:10px 0 4px;font-size:1.7rem">Traçando as Famílias Silábicas</h2>
   <p>Escolha uma família, observe a sílaba e trace por cima com o dedo ou o mouse.</p>
  </div>
+ <div id="moduleCards" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0">
+ <button id="goSyllables" class="primary" style="padding:22px 10px">🔤 Sílabas<br><small>Famílias silábicas</small></button>
+ <button id="goNumbers" class="secondary" style="padding:22px 10px">🔢 Números<br><small>De 0 a 20</small></button></div>
+ <button id="backCards" class="secondary" style="display:none;margin-bottom:12px">← Voltar às atividades</button>
+ <div id="practiceArea" style="display:none">
  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0">
   <label style="font-weight:750">Família silábica
    <select id="familySelect" style="display:block;width:100%;margin-top:6px"></select>
@@ -96,6 +101,7 @@ footer{text-align:center;color:#667085;font-size:.85rem;padding:12px}
  </div>
  <div class="tip" style="margin-top:14px"><b>Palavra para descobrir:</b> <span id="wordExample">BA de BALA</span>. Primeiro fale o som da sílaba e depois tente traçá-la!</div>
  <p style="font-size:.82rem;color:#667085;text-align:center;margin-bottom:0">O traçado é uma prática livre: incentive a criança a acompanhar o formato da letra, sem cobrança de caligrafia perfeita.</p>
+</div>
 </section>
 
 <footer>Feito para aprender brincando • Jardim 2</footer>
@@ -204,7 +210,7 @@ const familySelect=document.getElementById('familySelect');
 const syllableSelect=document.getElementById('syllableSelect');
 const traceCanvas=document.getElementById('traceCanvas');
 const tctx=traceCanvas.getContext('2d');
-let familyIndex=0, syllableIndex=0, drawing=false, strokes=0, lastPoint=null;
+let familyIndex=0, syllableIndex=0, drawing=false, strokes=0, lastPoint=null, activeMode='syllables', numberIndex=0;
 families.forEach((f,i)=>{const o=document.createElement('option');o.value=i;o.textContent=f[0]==='Vogais'?'Vogais':`Família do ${f[0]}`;familySelect.append(o)});
 function drawGuide(){
  const syllable=families[familyIndex][1][syllableIndex];
@@ -212,25 +218,28 @@ function drawGuide(){
  tctx.fillStyle='#fff';tctx.fillRect(0,0,1000,460);
  tctx.strokeStyle='#edf0f7';tctx.lineWidth=2;
  for(let y=100;y<460;y+=100){tctx.beginPath();tctx.moveTo(25,y);tctx.lineTo(975,y);tctx.stroke()}
- tctx.save();tctx.font='900 290px system-ui, sans-serif';tctx.textAlign='center';tctx.textBaseline='middle';
- tctx.fillStyle='#e2dafa';tctx.fillText(syllable,500,220);tctx.restore();
+ tctx.save();const guideText=activeMode==='numbers'?String(numberIndex):syllable;
+ tctx.font='400 285px system-ui, sans-serif';tctx.textAlign='center';tctx.textBaseline='middle';
+ tctx.fillStyle='#d8d1e8';tctx.fillText(guideText,500,220);tctx.restore();
  tctx.fillStyle='#9b8bc5';tctx.font='20px system-ui';tctx.textAlign='center';tctx.fillText('Passe por cima da letra clarinha',500,430);
  strokes=0;lastPoint=null;
  document.getElementById('traceMessage').textContent='Comece seguindo os pontinhos!';
- document.getElementById('wordExample').textContent=families[familyIndex][2][syllableIndex];
- document.getElementById('syllableHint').textContent=`Família do ${families[familyIndex][0]} • ${syllable}`;
+ document.getElementById('wordExample').textContent=activeMode==='numbers'?'Conte objetos e pratique o número':families[familyIndex][2][syllableIndex];
+ document.getElementById('syllableHint').textContent=activeMode==='numbers'?`Número ${numberIndex}`:`Família do ${families[familyIndex][0]} • ${syllable}`;
 }
-function updateSyllables(){syllableSelect.innerHTML='';families[familyIndex][1].forEach((s,i)=>{let o=document.createElement('option');o.value=i;o.textContent=s;syllableSelect.append(o)});syllableIndex=0;drawGuide()}
+function updateSyllables(){syllableSelect.innerHTML='';const items=activeMode==='numbers'?Array.from({length:21},(_,i)=>String(i)):families[familyIndex][1];items.forEach((s,i)=>{let o=document.createElement('option');o.value=i;o.textContent=s;syllableSelect.append(o)});syllableIndex=0;numberIndex=0;drawGuide()}
 familySelect.onchange=()=>{familyIndex=+familySelect.value;updateSyllables()};
-syllableSelect.onchange=()=>{syllableIndex=+syllableSelect.value;drawGuide()};
+syllableSelect.onchange=()=>{syllableIndex=+syllableSelect.value;numberIndex=syllableIndex;drawGuide()};
+function setMode(mode){activeMode=mode;document.getElementById('moduleCards').style.display='none';document.getElementById('backCards').style.display='inline-block';document.getElementById('practiceArea').style.display='block';familySelect.parentElement.style.display=mode==='numbers'?'none':'block';document.getElementById('wordExample').parentElement.style.display=mode==='numbers'?'none':'block';document.getElementById('traceListen').textContent=mode==='numbers'?'🔊 Ouvir número':'🔊 Ouvir sílaba';document.getElementById('traceNext').textContent=mode==='numbers'?'Próximo número ➜':'Próxima sílaba ➜';document.querySelector('#tracingModule h2').textContent=mode==='numbers'?'Traçando os Números':'Traçando as Famílias Silábicas';document.querySelector('#tracingModule p').textContent=mode==='numbers'?'Escolha um número e pratique o traçado de 0 a 20.':'Escolha uma família e pratique o traçado das sílabas.';updateSyllables()}
+document.getElementById('goSyllables').onclick=()=>setMode('syllables');document.getElementById('goNumbers').onclick=()=>setMode('numbers');document.getElementById('backCards').onclick=()=>{document.getElementById('moduleCards').style.display='grid';document.getElementById('backCards').style.display='none';document.getElementById('practiceArea').style.display='none'};
 function pointerPos(e){const r=traceCanvas.getBoundingClientRect();return{x:(e.clientX-r.left)*traceCanvas.width/r.width,y:(e.clientY-r.top)*traceCanvas.height/r.height}}
 traceCanvas.addEventListener('pointerdown',e=>{drawing=true;traceCanvas.setPointerCapture(e.pointerId);lastPoint=pointerPos(e);strokes++;});
-traceCanvas.addEventListener('pointermove',e=>{if(!drawing)return;const p=pointerPos(e);tctx.save();tctx.strokeStyle='#ff6f9f';tctx.lineWidth=13;tctx.lineCap='round';tctx.lineJoin='round';tctx.beginPath();tctx.moveTo(lastPoint.x,lastPoint.y);tctx.lineTo(p.x,p.y);tctx.stroke();tctx.restore();lastPoint=p});
+traceCanvas.addEventListener('pointermove',e=>{if(!drawing)return;const p=pointerPos(e);tctx.save();tctx.strokeStyle='#ff6f9f';tctx.lineWidth=4;tctx.lineCap='round';tctx.lineJoin='round';tctx.beginPath();tctx.moveTo(lastPoint.x,lastPoint.y);tctx.lineTo(p.x,p.y);tctx.stroke();tctx.restore();lastPoint=p});
 function endTrace(){if(drawing){drawing=false;document.getElementById('traceMessage').textContent='Muito bem! Continue acompanhando o formato da sílaba! 🌟'}}
 traceCanvas.addEventListener('pointerup',endTrace);traceCanvas.addEventListener('pointercancel',endTrace);
 document.getElementById('traceClear').onclick=drawGuide;
-document.getElementById('traceNext').onclick=()=>{syllableIndex=(syllableIndex+1)%families[familyIndex][1].length;syllableSelect.value=syllableIndex;drawGuide()};
-document.getElementById('traceListen').onclick=()=>{if('speechSynthesis'in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(families[familyIndex][1][syllableIndex]);u.lang='pt-BR';speechSynthesis.speak(u)}else document.getElementById('traceMessage').textContent='Áudio não disponível neste aparelho.'};
+document.getElementById('traceNext').onclick=()=>{const total=activeMode==='numbers'?21:families[familyIndex][1].length;syllableIndex=(syllableIndex+1)%total;numberIndex=syllableIndex;syllableSelect.value=syllableIndex;drawGuide()};
+document.getElementById('traceListen').onclick=()=>{if('speechSynthesis'in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(activeMode==='numbers'?String(numberIndex):families[familyIndex][1][syllableIndex]);u.lang='pt-BR';speechSynthesis.speak(u)}else document.getElementById('traceMessage').textContent='Áudio não disponível neste aparelho.'};
 updateSyllables();
 
 </script>

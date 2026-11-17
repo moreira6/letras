@@ -1,28 +1,5 @@
-# Traçando as Sílabas — Jardim 2
+# Traçando Sílabas e Números — Jardim 2
 
-Projeto educativo estático, responsivo e em português, pronto para publicação na Vercel.
+Atividade web estática para publicar na Vercel. Tela inicial com cartões para escolher Sílabas ou Números. Traçado com mouse ou toque, guia fino em tom claro, áudio, limpar e avançar. Sílabas incluem vogais, famílias simples e dígrafos; números de 0 a 20.
 
-## Publicar na Vercel
-1. Extraia o ZIP.
-2. Envie a pasta para um repositório GitHub.
-3. Na Vercel, escolha **Add New → Project** e importe o repositório.
-4. Framework Preset: **Other**.
-5. Output Directory: `.` e faça o Deploy.
-
-Também é possível testar abrindo `index.html` no navegador.
-
-## Recursos
-- Módulo de traçado de vogais e famílias silábicas.
-- Prática com mouse, dedo ou caneta touch.
-- Áudio das sílabas em português, quando disponível no navegador.
-- Exemplos de palavras.
-- Seleção de família e sílaba.
-- Botão para apagar e repetir.
-- Layout adaptável a celular, tablet e computador.
-
-A atividade é de treino livre do movimento da escrita; não atribui nota automática à caligrafia.
-
-
-## Ajuste visual do traçado
-- Área de escrita ampliada (1000 × 460, adaptável à largura da tela).
-- Sílabas exibidas como letras preenchidas em tom claro, sem contorno vazado, para a criança passar o dedo ou mouse por cima.
+Para publicar: envie os arquivos ao GitHub, importe o repositório na Vercel como projeto Other e publique com diretório de saída `.`.
