@@ -3,244 +3,120 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#fff4d6">
-<title>Traçando as Sílabas — Jardim 2</title>
+<title>Aprendendo e Traçando — Jardim 2</title>
 <style>
-:root{--ink:#25324a;--pink:#ff7aa2;--yellow:#ffd166;--blue:#6ec5ff;--green:#80d6a5;--purple:#b69cff;--paper:#fffdf7}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#fff4d6,#fce8f1 55%,#e7f5ff);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
-header{text-align:center;padding:24px 16px 12px}h1{margin:0;font-size:clamp(1.7rem,4vw,2.7rem);color:#6d4acb}header p{margin:8px 0;color:#58647a}
-main{max-width:1100px;margin:auto;padding:12px 16px 36px}.topbar{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:14px}
-select,button{font:inherit;border:0;border-radius:14px;padding:11px 15px;font-weight:750;cursor:pointer}
-select{background:white;color:var(--ink);box-shadow:0 3px 12px #26324a18}
-.progress{font-weight:800;background:#fff;padding:10px 14px;border-radius:14px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:18px;align-items:start}
-.panel{background:#ffffffd9;border:3px solid white;border-radius:24px;padding:16px;box-shadow:0 10px 30px #53617a18}
-.art-wrap{background:#fff;border-radius:18px;padding:10px;min-height:350px;display:grid;place-items:center}
-svg{width:100%;max-height:540px;touch-action:manipulation}
-.paintable{stroke:#263449;stroke-width:5;stroke-linejoin:round;stroke-linecap:round;cursor:pointer;transition:fill .15s}
-.paintable:hover{filter:brightness(.96);stroke-width:7}
-.region-label{font: bold 25px system-ui;fill:#263449;pointer-events:none;text-anchor:middle;dominant-baseline:middle}
-.palette{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
-.color{border:4px solid white;box-shadow:0 2px 9px #26344920;border-radius:16px;padding:12px 8px;display:flex;align-items:center;gap:9px;background:white;text-align:left}
-.color[aria-pressed=true]{outline:4px solid #6d4acb;transform:translateY(-2px)}
-.swatch{width:30px;height:30px;border-radius:50%;border:2px solid #26344930;flex:none}
-.color strong{font-size:1.2rem}.color small{display:block;font-size:.76rem}
-.side h2{font-size:1.2rem;margin:3px 0 8px}.side p{line-height:1.45;margin:6px 0 14px}
-.actions{display:grid;gap:9px;margin-top:16px}.primary{background:#6d4acb;color:white}.secondary{background:#eaf2ff;color:#30415f}.success{background:#d9f7e6;color:#17643a}
-.tip{background:#fff4d6;border-radius:15px;padding:12px;margin-top:14px;font-size:.9rem}
-#feedback{min-height:30px;text-align:center;font-weight:800;color:#6d4acb;padding-top:10px}
-footer{text-align:center;color:#667085;font-size:.85rem;padding:12px}
-@media(max-width:760px){.layout{grid-template-columns:1fr}.side{order:-1}.palette{grid-template-columns:repeat(4,1fr)}.color{justify-content:center;flex-direction:column;text-align:center;padding:8px 4px}.color small{font-size:.68rem}.art-wrap{min-height:270px}}
-
-.topbar,.layout{display:none!important}
-.badge{letter-spacing:.02em}
-#traceCanvas{min-height:260px}
-#familySelect,#syllableSelect{background:#fff;color:var(--ink);border:2px solid #e5ddff;border-radius:12px;padding:10px;width:100%;font:inherit}
-
+:root{--ink:#34304b;--pink:#e85d91;--lav:#eee9fb;--mint:#e4f6ef;--yellow:#fff3cf;--paper:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(135deg,#f8f4ff,#fff9ef);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);min-height:100vh}
+header{text-align:center;padding:22px 14px 10px}
+h1{font-size:clamp(1.6rem,4vw,2.5rem);margin:0 0 6px}
+header p{margin:0;color:#69627c;font-size:1.05rem}
+main{max-width:1180px;margin:auto;padding:14px}
+.panel{background:#fff;border:3px solid #eee8fa;border-radius:28px;padding:clamp(16px,3vw,30px);box-shadow:0 10px 30px #53447a12}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;max-width:800px;margin:25px auto}
+.choice{border:0;border-radius:26px;padding:35px 15px;min-height:210px;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:850;color:var(--ink);cursor:pointer;box-shadow:0 6px 0 #00000012;transition:.15s}
+.choice:hover{transform:translateY(-3px)}
+.choice small{display:block;font-size:1rem;font-weight:600;margin-top:8px}
+.syll{background:var(--lav)}.nums{background:var(--mint)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.toolbar h2{margin:0;font-size:clamp(1.3rem,3vw,1.8rem)}
+.controls{display:flex;flex-wrap:wrap;gap:9px}
+button{font:inherit}
+.btn{border:0;border-radius:14px;padding:12px 17px;background:#eee9fb;color:var(--ink);font-weight:750;cursor:pointer}
+.btn.primary{background:var(--pink);color:white}
+.btn:active,.choice:active{transform:scale(.98)}
+.sheet{background:#fff;border:2px solid #e8e3ef;border-radius:20px;padding:12px;box-shadow:inset 0 0 0 5px #faf9fc}
+canvas{display:block;width:100%;height:auto;touch-action:none;border-radius:12px;background:white}
+.tip{text-align:center;color:#777087;margin:10px 0 0;font-size:.98rem}
+.progress{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin:12px 0}
+.progress button{border:1px solid #ddd5ec;background:white;border-radius:10px;padding:7px 11px;cursor:pointer;font-weight:700}
+.progress button.active{background:#fbe0eb;border-color:var(--pink)}
+.hidden{display:none!important}
+footer{text-align:center;color:#8a8498;font-size:.85rem;padding:18px}
+@media(max-width:600px){.cards{grid-template-columns:1fr}.choice{min-height:150px;padding:22px}.toolbar{align-items:flex-start}.controls{width:100%}.btn{flex:1}}
 </style>
 </head>
 <body>
-<header><h1>✏️ Traçando as Sílabas</h1><p>Vamos aprender as famílias silábicas brincando!</p></header>
+<header><h1>🌈 Aprendendo e Traçando</h1><p>Uma atividade de coordenação motora para o Jardim 2</p></header>
 <main>
- <div class="topbar">
-  <label>Escolha um desenho:
-   <select id="sceneSelect" aria-label="Escolha um desenho"></select>
-  </label>
-  <div class="progress" id="progress">⭐ 0 de 10 concluídos</div>
- </div>
- <div class="layout">
-  <section class="panel">
-   <div class="art-wrap" id="art" aria-label="Desenho para colorir"></div>
-   <div id="feedback" aria-live="polite">Escolha uma cor e toque nas partes com a mesma letra!</div>
-  </section>
-  <aside class="panel side">
-   <h2 id="sceneTitle">🏠 A casinha</h2>
-   <p>Observe a legenda. Escolha uma cor e pinte os espaços que têm aquela letra.</p>
-   <div class="palette" id="palette"></div>
-   <div class="actions">
-    <button class="primary" id="listen">🔊 Ouvir instruções</button>
-    <button class="secondary" id="undo">↶ Desfazer última pintura</button>
-    <button class="secondary" id="reset">🧽 Apagar desenho</button>
-    <button class="success" id="next">Próximo desenho ➜</button>
-   </div>
-   <div class="tip">💡 <b>Dica para o adulto:</b> peça à criança que diga o nome da letra e da cor antes de pintar.</div>
-  </aside>
- </div>
-</main>
-
-<section class="panel" id="tracingModule" style="margin-top:20px">
- <div style="text-align:center">
-  <span class="badge" style="display:inline-block;background:#e9e2ff;color:#6041b5;padding:6px 12px;border-radius:20px;font-weight:800">✏️ Módulo 2</span>
-  <h2 style="color:#6d4acb;margin:10px 0 4px;font-size:1.7rem">Traçando as Famílias Silábicas</h2>
-  <p>Escolha uma família, observe a sílaba e trace por cima com o dedo ou o mouse.</p>
- </div>
- <div id="moduleCards" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0">
- <button id="goSyllables" class="primary" style="padding:22px 10px">🔤 Sílabas<br><small>Famílias silábicas</small></button>
- <button id="goNumbers" class="secondary" style="padding:22px 10px">🔢 Números<br><small>De 0 a 20</small></button></div>
- <button id="backCards" class="secondary" style="display:none;margin-bottom:12px">← Voltar às atividades</button>
- <div id="practiceArea" style="display:none">
- <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0">
-  <label style="font-weight:750">Família silábica
-   <select id="familySelect" style="display:block;width:100%;margin-top:6px"></select>
-  </label>
-  <label style="font-weight:750">Sílaba
-   <select id="syllableSelect" style="display:block;width:100%;margin-top:6px"></select>
-  </label>
- </div>
- <div style="background:#f8f5ff;border-radius:18px;padding:12px;text-align:center">
-  <div id="syllableHint" style="font-weight:750;color:#6d4acb;margin-bottom:5px">Trace a sílaba pontilhada</div>
-  <div style="position:relative;width:100%;max-width:1000px;margin:auto;background:white;border:2px dashed #d6c9ff;border-radius:16px;overflow:hidden">
-   <canvas id="traceCanvas" width="1000" height="460" aria-label="Área ampliada para traçar a sílaba com o dedo ou mouse" style="display:block;width:100%;height:auto;touch-action:none;cursor:crosshair"></canvas>
+<section id="home" class="panel">
+  <h2 style="text-align:center;margin:8px 0">O que vamos traçar hoje?</h2>
+  <div class="cards">
+    <button class="choice syll" onclick="openMode('syllables')">🔤 Sílabas<small>Vamos treinar as famílias silábicas</small></button>
+    <button class="choice nums" onclick="openMode('numbers')">🔢 Números<small>Vamos traçar do 0 ao 20</small></button>
   </div>
-  <div id="traceMessage" aria-live="polite" style="min-height:28px;font-weight:800;color:#6d4acb;padding-top:8px">Comece seguindo os pontinhos!</div>
- </div>
- <div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:12px">
-  <button class="primary" id="traceListen">🔊 Ouvir sílaba</button>
-  <button class="secondary" id="traceClear">🧽 Apagar traçado</button>
-  <button class="success" id="traceNext">Próxima sílaba ➜</button>
- </div>
- <div class="tip" style="margin-top:14px"><b>Palavra para descobrir:</b> <span id="wordExample">BA de BALA</span>. Primeiro fale o som da sílaba e depois tente traçá-la!</div>
- <p style="font-size:.82rem;color:#667085;text-align:center;margin-bottom:0">O traçado é uma prática livre: incentive a criança a acompanhar o formato da letra, sem cobrança de caligrafia perfeita.</p>
-</div>
 </section>
-
-<footer>Feito para aprender brincando • Jardim 2</footer>
+<section id="practice" class="panel hidden">
+  <div class="toolbar">
+    <h2 id="modeTitle">Traçando</h2>
+    <div class="controls">
+      <button class="btn" onclick="speak()">🔊 Ouvir</button>
+      <button class="btn" onclick="clearDrawing()">↺ Apagar traçado</button>
+      <button class="btn primary" onclick="nextItem()">Próximo ➜</button>
+      <button class="btn" onclick="goHome()">⌂ Início</button>
+    </div>
+  </div>
+  <div id="progress" class="progress"></div>
+  <div class="sheet"><canvas id="board" width="1200" height="520" aria-label="Área para traçar sobre os pontinhos"></canvas></div>
+  <p class="tip">Passe o dedo, o mouse ou a caneta por cima dos pontinhos para formar a sílaba ou o número.</p>
+</section>
+</main>
+<footer>Aprender brincando é muito melhor! 💜</footer>
 <script>
-const colors={A:{name:"Azul",hex:"#70c7ff"},B:{name:"Vermelho",hex:"#ff7777"},C:{name:"Verde",hex:"#78d69a"},D:{name:"Amarelo",hex:"#ffd65e"}};
-const region=(shape,letter,x,y)=>`<g class="region" data-letter="${letter}">${shape}<text class="region-label" x="${x}" y="${y}">${letter}</text></g>`;
-const scenes=[
- {title:"🏠 A casinha",svg:`<svg viewBox="0 0 500 400" role="img" aria-label="Casinha para colorir">
- ${region('<path class="paintable" fill="white" d="M75 180 L250 45 L425 180 Z"/>','B',250,135)}
- ${region('<rect class="paintable" x="105" y="178" width="290" height="175" rx="4" fill="white"/>','A',250,205)}
- ${region('<rect class="paintable" x="215" y="245" width="70" height="108" fill="white"/>','C',250,295)}
- ${region('<rect class="paintable" x="135" y="215" width="55" height="55" fill="white"/>','D',162,242)}
- ${region('<rect class="paintable" x="310" y="215" width="55" height="55" fill="white"/>','D',337,242)}
- ${region('<circle class="paintable" cx="425" cy="65" r="35" fill="white"/>','D',425,65)}</svg>`},
- {title:"🦋 A borboleta",svg:`<svg viewBox="0 0 500 360"><g>
- ${region('<ellipse class="paintable" cx="160" cy="145" rx="105" ry="85" fill="white"/>','A',150,145)}
- ${region('<ellipse class="paintable" cx="340" cy="145" rx="105" ry="85" fill="white"/>','B',350,145)}
- ${region('<ellipse class="paintable" cx="250" cy="180" rx="28" ry="105" fill="white"/>','C',250,180)}
- ${region('<circle class="paintable" cx="250" cy="65" r="34" fill="white"/>','D',250,65)}
- <path d="M235 35 Q190 -10 180 25 M265 35 Q310 -10 320 25" fill="none" stroke="#263449" stroke-width="5"/></g></svg>`},
- {title:"🌸 A flor",svg:`<svg viewBox="0 0 500 400">
- ${region('<circle class="paintable" cx="250" cy="125" r="48" fill="white"/>','D',250,125)}
- ${region('<circle class="paintable" cx="250" cy="55" r="43" fill="white"/>','B',250,55)}
- ${region('<circle class="paintable" cx="320" cy="125" r="43" fill="white"/>','A',320,125)}
- ${region('<circle class="paintable" cx="250" cy="195" r="43" fill="white"/>','B',250,195)}
- ${region('<circle class="paintable" cx="180" cy="125" r="43" fill="white"/>','C',180,125)}
- ${region('<rect class="paintable" x="235" y="235" width="30" height="125" rx="12" fill="white"/>','C',250,290)}</svg>`},
- {title:"🚗 O carrinho",svg:`<svg viewBox="0 0 500 350">
- ${region('<path class="paintable" d="M75 190 L115 115 L325 115 L395 190 L420 190 L420 270 L65 270 L65 210 Z" fill="white"/>','B',250,205)}
- ${region('<path class="paintable" d="M145 130 L295 130 L345 190 L110 190 Z" fill="white"/>','A',230,160)}
- ${region('<circle class="paintable" cx="145" cy="270" r="43" fill="white"/>','C',145,270)}
- ${region('<circle class="paintable" cx="345" cy="270" r="43" fill="white"/>','C',345,270)}</svg>`},
- {title:"🐟 O peixinho",svg:`<svg viewBox="0 0 500 350">
- ${region('<ellipse class="paintable" cx="235" cy="175" rx="135" ry="85" fill="white"/>','A',235,175)}
- ${region('<path class="paintable" d="M365 175 L465 95 L465 255 Z" fill="white"/>','B',420,175)}
- ${region('<circle class="paintable" cx="155" cy="155" r="17" fill="white"/>','D',155,155)}
- ${region('<path class="paintable" d="M220 105 Q275 45 315 105 Z" fill="white"/>','C',270,90)}</svg>`},
- {title:"🌳 A árvore",svg:`<svg viewBox="0 0 500 400">
- ${region('<rect class="paintable" x="210" y="205" width="80" height="160" fill="white"/>','B',250,280)}
- ${region('<circle class="paintable" cx="250" cy="135" r="105" fill="white"/>','C',250,135)}
- ${region('<circle class="paintable" cx="170" cy="175" r="65" fill="white"/>','A',170,175)}
- ${region('<circle class="paintable" cx="330" cy="175" r="65" fill="white"/>','D',330,175)}</svg>`},
- {title:"☀️ O sol",svg:`<svg viewBox="0 0 500 380">
- ${region('<circle class="paintable" cx="250" cy="180" r="105" fill="white"/>','D',250,180)}
- ${region('<path class="paintable" d="M250 20 L270 65 L230 65 Z" fill="white"/>','B',250,52)}
- ${region('<path class="paintable" d="M250 340 L270 295 L230 295 Z" fill="white"/>','B',250,315)}
- ${region('<path class="paintable" d="M75 180 L120 160 L120 200 Z" fill="white"/>','A',105,180)}
- ${region('<path class="paintable" d="M425 180 L380 160 L380 200 Z" fill="white"/>','C',395,180)}</svg>`},
- {title:"⛵ O barquinho",svg:`<svg viewBox="0 0 500 380">
- ${region('<path class="paintable" d="M250 45 L250 245 L105 245 Z" fill="white"/>','A',205,170)}
- ${region('<path class="paintable" d="M270 85 L270 245 L395 245 Z" fill="white"/>','D',325,190)}
- ${region('<path class="paintable" d="M85 260 L415 260 L350 335 L150 335 Z" fill="white"/>','B',250,295)}
- ${region('<path class="paintable" d="M55 350 Q100 320 145 350 T235 350 T325 350 T415 350" fill="none" stroke="white" stroke-width="18"/>','C',110,345)}</svg>`},
- {title:"🍎 A maçã",svg:`<svg viewBox="0 0 500 380">
- ${region('<path class="paintable" d="M250 105 C150 35 65 130 115 250 C155 350 220 330 250 310 C280 330 345 350 385 250 C435 130 350 35 250 105 Z" fill="white"/>','B',250,220)}
- ${region('<path class="paintable" d="M250 105 Q250 40 285 25" fill="none" stroke="white" stroke-width="20"/>','C',270,55)}
- ${region('<path class="paintable" d="M275 65 Q350 15 365 80 Q325 115 275 65 Z" fill="white"/>','A',325,65)}</svg>`},
- {title:"🏡 A paisagem",svg:`<svg viewBox="0 0 500 400">
- ${region('<circle class="paintable" cx="400" cy="70" r="42" fill="white"/>','D',400,70)}
- ${region('<path class="paintable" d="M0 280 Q120 180 250 280 T500 260 L500 400 L0 400 Z" fill="white"/>','C',250,330)}
- ${region('<path class="paintable" d="M65 210 L165 125 L265 210 Z" fill="white"/>','B',165,185)}
- ${region('<rect class="paintable" x="90" y="210" width="150" height="100" fill="white"/>','A',165,260)}
- ${region('<path class="paintable" d="M290 145 Q340 75 390 145 Q450 80 470 155" fill="none" stroke="white" stroke-width="28"/>','A',380,125)}</svg>`}
-];
-let current=0, selected='A', history=[], completed=new Set();
-const $=s=>document.querySelector(s);
-const select=$('#sceneSelect');
-scenes.forEach((s,i)=>{let o=document.createElement('option');o.value=i;o.textContent=(i+1)+'. '+s.title;select.append(o)});
-function renderPalette(){ $('#palette').innerHTML='';Object.entries(colors).forEach(([letter,c])=>{let b=document.createElement('button');b.className='color';b.style.borderColor=selected===letter?'#6d4acb':'white';b.setAttribute('aria-pressed',selected===letter);b.innerHTML=`<span class="swatch" style="background:${c.hex}"></span><span><strong>${letter}</strong><small>${c.name}</small></span>`;b.onclick=()=>{selected=letter;renderPalette()};$('#palette').append(b)})}
-function loadScene(){let s=scenes[current];$('#sceneTitle').textContent=s.title;$('#art').innerHTML=s.svg;history=[];$('#feedback').textContent='Escolha uma cor e toque nas partes com a mesma letra!';$('#art').querySelectorAll('.region').forEach(g=>{g.addEventListener('click',()=>paint(g))});renderPalette();updateProgress()}
-function paint(g){let letter=g.dataset.letter;if(letter!==selected){$('#feedback').textContent='Ops! Confira a letra e tente outra cor. 😊';return}let shape=g.querySelector('.paintable');if(shape.dataset.painted)history.push({shape,old:shape.getAttribute('fill'),painted:shape.dataset.painted});else history.push({shape,old:shape.getAttribute('fill'),painted:null});shape.setAttribute('fill',colors[selected].hex);shape.dataset.painted=selected;$('#feedback').textContent='Muito bem! Você encontrou a letra '+letter+'! ⭐';checkDone()}
-function checkDone(){let groups=[...$('#art').querySelectorAll('.region')];if(groups.every(g=>g.querySelector('.paintable').dataset.painted)){completed.add(current);$('#feedback').textContent='🎉 Parabéns! Você terminou o desenho!';updateProgress()}}
-function updateProgress(){$('#progress').textContent=`⭐ ${completed.size} de 10 concluídos`}
-$('#sceneSelect').onchange=e=>{current=+e.target.value;loadScene()};
-$('#reset').onclick=()=>{loadScene()};
-$('#undo').onclick=()=>{let h=history.pop();if(h){h.shape.setAttribute('fill',h.old||'white');if(h.painted)h.shape.dataset.painted=h.painted;else delete h.shape.dataset.painted;completed.delete(current);updateProgress();$('#feedback').textContent='Última pintura desfeita.'}};
-$('#next').onclick=()=>{current=(current+1)%scenes.length;select.value=current;loadScene()};
-$('#listen').onclick=()=>{if(!('speechSynthesis'in window)){ $('#feedback').textContent='Áudio não disponível neste aparelho.';return}speechSynthesis.cancel();let msg=new SpeechSynthesisUtterance('Escolha uma letra, veja sua cor na legenda e toque nas partes do desenho que têm a mesma letra. Vamos pintar!');msg.lang='pt-BR';speechSynthesis.speak(msg)};
-loadScene();
-
-// Módulo de traçado das famílias silábicas
 const families = [
- ["Vogais",["A","E","I","O","U"],["A de ABELHA","E de ELEFANTE","I de IGREJA","O de OVO","U de UVA"]],
- ["B",["BA","BE","BI","BO","BU"],["BA de BALA","BE de BEBÊ","BI de BICICLETA","BO de BOLA","BU de BULE"]],
- ["C",["CA","CE","CI","CO","CU"],["CA de CASA","CE de CEBOLA","CI de CIDADE","CO de COPO","CU de CUBO"]],
- ["D",["DA","DE","DI","DO","DU"],["DA de DADO","DE de DEDO","DI de DINOSSAURO","DO de DOCE","DU de DUCHA"]],
- ["F",["FA","FE","FI","FO","FU"],["FA de FACA","FE de FEIRA","FI de FIGO","FO de FOGO","FU de FUMAÇA"]],
- ["G",["GA","GE","GI","GO","GU"],["GA de GATO","GE de GELO","GI de GIRAFA","GO de GOLA","GU de GUSTO"]],
- ["J",["JA","JE","JI","JO","JU"],["JA de JANELA","JE de JEGUE","JI de JIPE","JO de JOGO","JU de JUBA"]],
- ["L",["LA","LE","LI","LO","LU"],["LA de LATA","LE de LEÃO","LI de LIMÃO","LO de LOBO","LU de LUPA"]],
- ["M",["MA","ME","MI","MO","MU"],["MA de MALA","ME de MESA","MI de MILHO","MO de MOTO","MU de MULA"]],
- ["N",["NA","NE","NI","NO","NU"],["NA de NAVIO","NE de NEVE","NI de NINHO","NO de NOVELO","NU de NUVEM"]],
- ["P",["PA","PE","PI","PO","PU"],["PA de PATO","PE de PÊRA","PI de PIPA","PO de PORCO","PU de PUDIM"]],
- ["Q",["QUA","QUE","QUI","QUO"],["QUA de QUADRO","QUE de QUEIJO","QUI de QUIABO","QUO de QUOTA"]],
- ["R",["RA","RE","RI","RO","RU"],["RA de RATO","RE de REDE","RI de RISO","RO de ROSA","RU de RUA"]],
- ["S",["SA","SE","SI","SO","SU"],["SA de SAPO","SE de SELO","SI de SINO","SO de SOFÁ","SU de SUCO"]],
- ["T",["TA","TE","TI","TO","TU"],["TA de TAPETE","TE de TELEFONE","TI de TIGRE","TO de TOMATE","TU de TUCANO"]],
- ["V",["VA","VE","VI","VO","VU"],["VA de VACA","VE de VELA","VI de VIOLÃO","VO de VOVÓ","VU de VULCÃO"]],
- ["X",["XA","XE","XI","XO","XU"],["XA de XAROPE","XE de XERIFE","XI de XÍCARA","XO de XODÓ","XU de XUXA"]],
- ["Z",["ZA","ZE","ZI","ZO","ZU"],["ZA de ZANGÃO","ZE de ZERO","ZI de ZÍPER","ZO de ZOOLÓGICO","ZU de ZUMBI"]],
- ["CH",["CHA","CHE","CHI","CHO","CHU"],["CHA de CHAVE","CHE de CHEIRO","CHI de CHINELO","CHO de CHOCOLATE","CHU de CHUVA"]],
- ["LH",["LHA","LHE","LHI","LHO","LHU"],["LHA de TELHA","LHE de COLHER","LHI de —","LHO de OLHO","LHU de —"]],
- ["NH",["NHA","NHE","NHI","NHO","NHU"],["NHA de MINHA","NHE de —","NHI de —","NHO de NHOQUE","NHU de —"]]
+["A","E","I","O","U"],["BA","BE","BI","BO","BU"],["CA","CE","CI","CO","CU"],
+["DA","DE","DI","DO","DU"],["FA","FE","FI","FO","FU"],["GA","GE","GI","GO","GU"],
+["JA","JE","JI","JO","JU"],["LA","LE","LI","LO","LU"],["MA","ME","MI","MO","MU"],
+["NA","NE","NI","NO","NU"],["PA","PE","PI","PO","PU"],["QUE","QUI"],
+["RA","RE","RI","RO","RU"],["SA","SE","SI","SO","SU"],["TA","TE","TI","TO","TU"],
+["VA","VE","VI","VO","VU"],["XA","XE","XI","XO","XU"],["ZA","ZE","ZI","ZO","ZU"],
+["CHA","CHE","CHI","CHO","CHU"],["LHA","LHE","LHI","LHO","LHU"],["NHA","NHE","NHI","NHO","NHU"]
 ];
-const familySelect=document.getElementById('familySelect');
-const syllableSelect=document.getElementById('syllableSelect');
-const traceCanvas=document.getElementById('traceCanvas');
-const tctx=traceCanvas.getContext('2d');
-let familyIndex=0, syllableIndex=0, drawing=false, strokes=0, lastPoint=null, activeMode='syllables', numberIndex=0;
-families.forEach((f,i)=>{const o=document.createElement('option');o.value=i;o.textContent=f[0]==='Vogais'?'Vogais':`Família do ${f[0]}`;familySelect.append(o)});
-function drawGuide(){
- const syllable=families[familyIndex][1][syllableIndex];
- tctx.clearRect(0,0,1000,460);
- tctx.fillStyle='#fff';tctx.fillRect(0,0,1000,460);
- tctx.strokeStyle='#edf0f7';tctx.lineWidth=2;
- for(let y=100;y<460;y+=100){tctx.beginPath();tctx.moveTo(25,y);tctx.lineTo(975,y);tctx.stroke()}
- tctx.save();const guideText=activeMode==='numbers'?String(numberIndex):syllable;
- tctx.font='400 285px system-ui, sans-serif';tctx.textAlign='center';tctx.textBaseline='middle';
- tctx.fillStyle='#d8d1e8';tctx.fillText(guideText,500,220);tctx.restore();
- tctx.fillStyle='#9b8bc5';tctx.font='20px system-ui';tctx.textAlign='center';tctx.fillText('Passe por cima da letra clarinha',500,430);
- strokes=0;lastPoint=null;
- document.getElementById('traceMessage').textContent='Comece seguindo os pontinhos!';
- document.getElementById('wordExample').textContent=activeMode==='numbers'?'Conte objetos e pratique o número':families[familyIndex][2][syllableIndex];
- document.getElementById('syllableHint').textContent=activeMode==='numbers'?`Número ${numberIndex}`:`Família do ${families[familyIndex][0]} • ${syllable}`;
+const syllables=families.flat();
+const numbers=Array.from({length:21},(_,i)=>String(i));
+let mode="syllables", index=0, items=[];
+const canvas=document.getElementById("board"), ctx=canvas.getContext("2d");
+let drawing=false, last=null;
+function openMode(which){mode=which;items=which==="syllables"?syllables:numbers;index=0;document.getElementById("home").classList.add("hidden");document.getElementById("practice").classList.remove("hidden");document.getElementById("modeTitle").textContent=which==="syllables"?"🔤 Traçado de sílabas":"🔢 Traçado de números";render()}
+function goHome(){document.getElementById("practice").classList.add("hidden");document.getElementById("home").classList.remove("hidden")}
+function render(){
+  document.getElementById("progress").innerHTML=items.map((v,i)=>`<button class="${i===index?'active':''}" onclick="selectItem(${i})">${v}</button>`).join("");
+  drawGuide();clearDrawing(false);
 }
-function updateSyllables(){syllableSelect.innerHTML='';const items=activeMode==='numbers'?Array.from({length:21},(_,i)=>String(i)):families[familyIndex][1];items.forEach((s,i)=>{let o=document.createElement('option');o.value=i;o.textContent=s;syllableSelect.append(o)});syllableIndex=0;numberIndex=0;drawGuide()}
-familySelect.onchange=()=>{familyIndex=+familySelect.value;updateSyllables()};
-syllableSelect.onchange=()=>{syllableIndex=+syllableSelect.value;numberIndex=syllableIndex;drawGuide()};
-function setMode(mode){activeMode=mode;document.getElementById('moduleCards').style.display='none';document.getElementById('backCards').style.display='inline-block';document.getElementById('practiceArea').style.display='block';familySelect.parentElement.style.display=mode==='numbers'?'none':'block';document.getElementById('wordExample').parentElement.style.display=mode==='numbers'?'none':'block';document.getElementById('traceListen').textContent=mode==='numbers'?'🔊 Ouvir número':'🔊 Ouvir sílaba';document.getElementById('traceNext').textContent=mode==='numbers'?'Próximo número ➜':'Próxima sílaba ➜';document.querySelector('#tracingModule h2').textContent=mode==='numbers'?'Traçando os Números':'Traçando as Famílias Silábicas';document.querySelector('#tracingModule p').textContent=mode==='numbers'?'Escolha um número e pratique o traçado de 0 a 20.':'Escolha uma família e pratique o traçado das sílabas.';updateSyllables()}
-document.getElementById('goSyllables').onclick=()=>setMode('syllables');document.getElementById('goNumbers').onclick=()=>setMode('numbers');document.getElementById('backCards').onclick=()=>{document.getElementById('moduleCards').style.display='grid';document.getElementById('backCards').style.display='none';document.getElementById('practiceArea').style.display='none'};
-function pointerPos(e){const r=traceCanvas.getBoundingClientRect();return{x:(e.clientX-r.left)*traceCanvas.width/r.width,y:(e.clientY-r.top)*traceCanvas.height/r.height}}
-traceCanvas.addEventListener('pointerdown',e=>{drawing=true;traceCanvas.setPointerCapture(e.pointerId);lastPoint=pointerPos(e);strokes++;});
-traceCanvas.addEventListener('pointermove',e=>{if(!drawing)return;const p=pointerPos(e);tctx.save();tctx.strokeStyle='#ff6f9f';tctx.lineWidth=4;tctx.lineCap='round';tctx.lineJoin='round';tctx.beginPath();tctx.moveTo(lastPoint.x,lastPoint.y);tctx.lineTo(p.x,p.y);tctx.stroke();tctx.restore();lastPoint=p});
-function endTrace(){if(drawing){drawing=false;document.getElementById('traceMessage').textContent='Muito bem! Continue acompanhando o formato da sílaba! 🌟'}}
-traceCanvas.addEventListener('pointerup',endTrace);traceCanvas.addEventListener('pointercancel',endTrace);
-document.getElementById('traceClear').onclick=drawGuide;
-document.getElementById('traceNext').onclick=()=>{const total=activeMode==='numbers'?21:families[familyIndex][1].length;syllableIndex=(syllableIndex+1)%total;numberIndex=syllableIndex;syllableSelect.value=syllableIndex;drawGuide()};
-document.getElementById('traceListen').onclick=()=>{if('speechSynthesis'in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(activeMode==='numbers'?String(numberIndex):families[familyIndex][1][syllableIndex]);u.lang='pt-BR';speechSynthesis.speak(u)}else document.getElementById('traceMessage').textContent='Áudio não disponível neste aparelho.'};
-updateSyllables();
-
+function selectItem(i){index=i;render()}
+function nextItem(){index=(index+1)%items.length;render()}
+function drawGuide(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+  const value=items[index];
+  // Build a raster mask of the character(s), then sample it on a regular grid.
+  // The guide is made ONLY of separate dots — there is no pale solid letter underneath.
+  const mask=document.createElement("canvas");mask.width=canvas.width;mask.height=canvas.height;
+  const m=mask.getContext("2d");
+  const size=value.length>=3?235:value.length===2?285:350;
+  m.clearRect(0,0,mask.width,mask.height);m.fillStyle="#000";m.textAlign="center";m.textBaseline="middle";
+  m.font=`700 ${size}px Arial, sans-serif`;
+  // Slightly condensed only for long combinations, keeping the whole guide large.
+  m.fillText(value,canvas.width/2,canvas.height/2,canvas.width-100);
+  const pixels=m.getImageData(0,0,mask.width,mask.height).data;
+  const step=11, radius=2.35;
+  ctx.fillStyle="#b9a9d8";
+  for(let y=0;y<canvas.height;y+=step){
+    for(let x=0;x<canvas.width;x+=step){
+      if(pixels[(y*canvas.width+x)*4+3]>100){
+        ctx.beginPath();ctx.arc(x,y,radius,0,Math.PI*2);ctx.fill();
+      }
+    }
+  }
+  // Baseline helps the child position the writing, like a worksheet.
+  ctx.strokeStyle="#eee9f4";ctx.lineWidth=2;ctx.setLineDash([7,10]);ctx.beginPath();ctx.moveTo(55,430);ctx.lineTo(1145,430);ctx.stroke();ctx.setLineDash([]);
+}
+function clearDrawing(redraw=true){if(redraw)drawGuide();else drawGuide()}
+function pos(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*canvas.width/r.width,y:(e.clientY-r.top)*canvas.height/r.height}}
+canvas.addEventListener("pointerdown",e=>{drawing=true;last=pos(e);canvas.setPointerCapture(e.pointerId)});
+canvas.addEventListener("pointermove",e=>{if(!drawing)return;const p=pos(e);ctx.strokeStyle="#e85d91";ctx.lineWidth=6;ctx.lineCap="round";ctx.lineJoin="round";ctx.beginPath();ctx.moveTo(last.x,last.y);ctx.lineTo(p.x,p.y);ctx.stroke();last=p});
+function stop(){drawing=false;last=null}
+canvas.addEventListener("pointerup",stop);canvas.addEventListener("pointercancel",stop);canvas.addEventListener("pointerleave",e=>{if(e.buttons===0)stop()});
+function speak(){const utter=new SpeechSynthesisUtterance(items[index]);utter.lang="pt-BR";speechSynthesis.cancel();speechSynthesis.speak(utter)}
 </script>
-</body></html>
+</body>
+</html>
