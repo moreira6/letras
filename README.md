@@ -21,3 +21,8 @@ Também é possível testar abrindo `index.html` no navegador.
 - Layout adaptável a celular, tablet e computador.
 
 A atividade é de treino livre do movimento da escrita; não atribui nota automática à caligrafia.
+
+
+## Ajuste visual do traçado
+- Área de escrita ampliada (1000 × 460, adaptável à largura da tela).
+- Sílabas exibidas como letras preenchidas em tom claro, sem contorno vazado, para a criança passar o dedo ou mouse por cima.

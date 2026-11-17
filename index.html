@@ -34,6 +34,7 @@ footer{text-align:center;color:#667085;font-size:.85rem;padding:12px}
 
 .topbar,.layout{display:none!important}
 .badge{letter-spacing:.02em}
+#traceCanvas{min-height:260px}
 #familySelect,#syllableSelect{background:#fff;color:var(--ink);border:2px solid #e5ddff;border-radius:12px;padding:10px;width:100%;font:inherit}
 
 </style>
@@ -83,8 +84,8 @@ footer{text-align:center;color:#667085;font-size:.85rem;padding:12px}
  </div>
  <div style="background:#f8f5ff;border-radius:18px;padding:12px;text-align:center">
   <div id="syllableHint" style="font-weight:750;color:#6d4acb;margin-bottom:5px">Trace a sílaba pontilhada</div>
-  <div style="position:relative;max-width:650px;margin:auto;background:white;border:2px dashed #d6c9ff;border-radius:16px;overflow:hidden">
-   <canvas id="traceCanvas" width="650" height="270" aria-label="Área para traçar a sílaba com o dedo ou mouse" style="display:block;width:100%;height:auto;touch-action:none;cursor:crosshair"></canvas>
+  <div style="position:relative;width:100%;max-width:1000px;margin:auto;background:white;border:2px dashed #d6c9ff;border-radius:16px;overflow:hidden">
+   <canvas id="traceCanvas" width="1000" height="460" aria-label="Área ampliada para traçar a sílaba com o dedo ou mouse" style="display:block;width:100%;height:auto;touch-action:none;cursor:crosshair"></canvas>
   </div>
   <div id="traceMessage" aria-live="polite" style="min-height:28px;font-weight:800;color:#6d4acb;padding-top:8px">Comece seguindo os pontinhos!</div>
  </div>
@@ -207,14 +208,13 @@ let familyIndex=0, syllableIndex=0, drawing=false, strokes=0, lastPoint=null;
 families.forEach((f,i)=>{const o=document.createElement('option');o.value=i;o.textContent=f[0]==='Vogais'?'Vogais':`Família do ${f[0]}`;familySelect.append(o)});
 function drawGuide(){
  const syllable=families[familyIndex][1][syllableIndex];
- tctx.clearRect(0,0,650,270);
- tctx.fillStyle='#fff';tctx.fillRect(0,0,650,270);
- tctx.strokeStyle='#edf0f7';tctx.lineWidth=1;
- for(let y=65;y<270;y+=65){tctx.beginPath();tctx.moveTo(18,y);tctx.lineTo(632,y);tctx.stroke()}
- tctx.save();tctx.font='900 164px system-ui, sans-serif';tctx.textAlign='center';tctx.textBaseline='middle';
- tctx.lineWidth=3;tctx.strokeStyle='#9c87dc';tctx.setLineDash([2,9]);tctx.lineCap='round';
- tctx.strokeText(syllable,325,143);tctx.restore();
- tctx.fillStyle='#b5a8d9';tctx.font='15px system-ui';tctx.textAlign='center';tctx.fillText('Siga os pontinhos!',325,250);
+ tctx.clearRect(0,0,1000,460);
+ tctx.fillStyle='#fff';tctx.fillRect(0,0,1000,460);
+ tctx.strokeStyle='#edf0f7';tctx.lineWidth=2;
+ for(let y=100;y<460;y+=100){tctx.beginPath();tctx.moveTo(25,y);tctx.lineTo(975,y);tctx.stroke()}
+ tctx.save();tctx.font='900 290px system-ui, sans-serif';tctx.textAlign='center';tctx.textBaseline='middle';
+ tctx.fillStyle='#e2dafa';tctx.fillText(syllable,500,220);tctx.restore();
+ tctx.fillStyle='#9b8bc5';tctx.font='20px system-ui';tctx.textAlign='center';tctx.fillText('Passe por cima da letra clarinha',500,430);
  strokes=0;lastPoint=null;
  document.getElementById('traceMessage').textContent='Comece seguindo os pontinhos!';
  document.getElementById('wordExample').textContent=families[familyIndex][2][syllableIndex];
