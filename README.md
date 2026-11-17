@@ -1,31 +1,23 @@
-# Pintando com as Letras — Jardim 2
+# Traçando as Sílabas — Jardim 2
 
-Projeto estático, responsivo e em português, pronto para publicação na Vercel.
+Projeto educativo estático, responsivo e em português, pronto para publicação na Vercel.
 
 ## Publicar na Vercel
 1. Extraia o ZIP.
-2. Envie a pasta `pintando-com-as-letras-jardim2` para um repositório GitHub.
+2. Envie a pasta para um repositório GitHub.
 3. Na Vercel, escolha **Add New → Project** e importe o repositório.
 4. Framework Preset: **Other**.
-5. Build Command e Output Directory podem ficar vazios (ou Output Directory `.`).
-6. Clique em **Deploy**.
+5. Output Directory: `.` e faça o Deploy.
 
-Também é possível testar localmente abrindo `index.html` no navegador.
+Também é possível testar abrindo `index.html` no navegador.
 
 ## Recursos
-- 10 desenhos simples para colorir por letras.
-- Seleção de cor e pintura por toque/clique.
-- Desfazer última pintura e reiniciar desenho.
-- Instruções faladas usando a voz disponível no navegador.
-- Contador de desenhos concluídos durante a sessão.
+- Módulo de traçado de vogais e famílias silábicas.
+- Prática com mouse, dedo ou caneta touch.
+- Áudio das sílabas em português, quando disponível no navegador.
+- Exemplos de palavras.
+- Seleção de família e sílaba.
+- Botão para apagar e repetir.
 - Layout adaptável a celular, tablet e computador.
 
-Observação: o progresso não é salvo entre sessões. Para isso, será necessário adicionar armazenamento ou cadastro de alunos.
-
-
-## Módulo adicional: traçado de sílabas
-- Vogais e famílias silábicas simples (BA–BU, CA–CU etc.).
-- Famílias com CH, LH e NH e sequências QU.
-- Traçado com mouse ou toque em tela sensível.
-- Áudio da sílaba, seleção de família, próxima sílaba e apagar traçado.
-- O exercício é de prática livre e não faz avaliação automática da caligrafia.
+A atividade é de treino livre do movimento da escrita; não atribui nota automática à caligrafia.
